@@ -1,15 +1,18 @@
 const express = require("express");
 const bodyParser = require('body-parser');
+const cors = require('cors');
+
 const connectToDb = require("../db/connection");
 
 const app = express();
+app.use(cors());
 app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
   res.send("Node js running on your machine now");
 });
 
-app.get('/find/vol-ngo', async (req, res) => {
+app.get('/find/ngo-vol', async (req, res) => {
     const client = await connectToDb();
     // Specify the database and collection
     const database = client.db('Volunteer-Match');
@@ -32,10 +35,10 @@ app.get('/find/vol-ngo', async (req, res) => {
     const result = [];
 
     ngos.forEach(ngo => {
-        const { FieldOfInterest: ngoField, VolunteerDays: ngoDay } = ngo;
+        const { fieldOfInterest: ngoField, volunteerDays: ngoDay } = ngo;
         const volunteerResult = [];
         volunteers.forEach(volunteer => {
-            const { FieldOfInterest: volField, VolunteerDays: volDay } = volunteer;
+            const { fieldOfInterest: volField, volunteerDays: volDay } = volunteer;
             if(ngoField === volField && ngoDay === volDay) volunteerResult.push(volunteer)
         })
         result.push({
@@ -45,6 +48,44 @@ app.get('/find/vol-ngo', async (req, res) => {
     })
 
     res.send(result);
+});
+
+app.get('/find/vol-ngo', async (req, res) => {
+  const client = await connectToDb();
+  // Specify the database and collection
+  const database = client.db('Volunteer-Match');
+  const volunteerColl = database.collection('Volunteer');
+  const volDocs = await volunteerColl.find({});
+
+  const volunteers = [];
+  for await (const doc of volDocs) {
+      volunteers.push(doc);
+  }
+
+  const ngoColl = database.collection('NGO');
+  const ngoDocs = await ngoColl.find({});
+
+  const ngos = [];
+  for await (const doc of ngoDocs) {
+      ngos.push(doc);
+  }
+
+  const result = [];
+
+  volunteers.forEach(volunteer => {
+      const { fieldOfInterest: volField, volunteerDays: volDay } = volunteer;
+      const ngoResult = [];
+      ngos.forEach(ngo => {
+          const { fieldOfInterest: ngoField, volunteerDays: ngoDay } = volunteer;
+          if(ngoField === volField && ngoDay === volDay) ngoResult.push(ngo)
+      })
+      result.push({
+          ...volunteer,
+          ngos: ngoResult
+      })
+  })
+
+  res.send(result);
 });
 
 app.post("/add/volunteer", async (req, res) => {

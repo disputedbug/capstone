@@ -1,24 +1,15 @@
 import logo from './logo.svg';
 import './App.css';
+import SignInPage from './components/SignInPage';
+import VolunteerForm from './components/VolunteerForm';
+import NgoForm from './components/NgoForm';
+import NGO_Volunteer_Match from './components/NGO_Volunteer_Match';
+import SignUpForm from './components/SignUpForm';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn ...
-        </a>
-      </header>
-    </div>
+    <NGO_Volunteer_Match/>
+
   );
 }
 
