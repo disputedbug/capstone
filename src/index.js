@@ -9,26 +9,47 @@ app.get('/', (req, res) => {
   res.send("Node js running on your machine now");
 });
 
-app.post("/add/volunteer", (req, res) => {
-
+app.post("/add/volunteer", async (req, res) => {
+    const { body } = req;
+    console.log(body);
+    const client = await connectToDb();
+    // Specify the database and collection
+    const database = client.db('Volunteer-Match');
+    const collection = database.collection('Volunteer');
+   
+    // Insert the document into the collection
+    const result = await collection.insertOne(body, (err, result) => {
+      if (err) {
+        console.error('Error inserting document:', err);
+      } else {
+        console.log('Document inserted successfully');
+      }
+    });
+    res.send({
+      status: 201,
+      ...result
+    });
 });
 
-app.post("/add/ngo", (req, res) => {
+app.post("/add/ngo", async (req, res) => {
   const { body } = req;
   console.log(body);
-  const client = connectToDb();
+  const client = await connectToDb();
   // Specify the database and collection
   const database = client.db('Volunteer-Match');
   const collection = database.collection('NGO');
  
   // Insert the document into the collection
-  collection.insertOne(body, (err, result) => {
+  const result = await collection.insertOne(body, (err, result) => {
     if (err) {
       console.error('Error inserting document:', err);
     } else {
-      console.log('Document inserted successfully:', result.ops[0]);
+      console.log('Document inserted successfully');
     }
-    res.send(body);
+  });
+  res.send({
+    status: 201,
+    ...result
   });
 });
 

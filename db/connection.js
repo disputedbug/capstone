@@ -7,19 +7,13 @@ const uri = process.env.MONGODB_URI;
 
 let client = null;
 
-const connectToDb = () => {
+const connectToDb = async () => {
   // connection already established
   if(!client) {
     // Create a new MongoClient
-    client = new MongoClient(uri);
 
     // Connect to the MongoDB server
-    client.connect(err => {
-      if (err) {
-        console.error('Error connecting to MongoDB:', err);
-        return null;
-      }
-    });
+    client = await new MongoClient(uri).connect()
   };
 
   return client;
