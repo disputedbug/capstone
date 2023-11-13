@@ -10,12 +10,13 @@ const NGO_Volunteer_Match = () => {
         axios.get(AWS_URL + '/find/ngo-vol').then(response => {
             const data = response.data;
             setNgoToVolData(data);
-            console.log(data)
+
         });
 
         axios.get(AWS_URL + '/find/vol-ngo').then(response => {
             const data = response.data;
             setVolToNgoData(data);
+            console.log(data)
         });
     }
 
@@ -42,7 +43,7 @@ const NGO_Volunteer_Match = () => {
                                 ngo.volunteers.length ? (
                                     <tr key={index}>
                                         <td>{ngo.name}</td>
-                                        <td>{ngo.fieldOfWork}</td>
+                                        <td>{ngo.fieldOfInterest}</td>
                                         <td>{ngo.volunteerDays}</td>
                                         <td>
                                             {ngo.volunteers.map(volunteer => {
@@ -83,15 +84,18 @@ const NGO_Volunteer_Match = () => {
                                 volunteer.ngos.length ? (
                                     <tr key={index}>
                                         <td>{volunteer.name}</td>
-                                        <td>{volunteer.fieldOfWork}</td>
+                                        <td>{volunteer.fieldOfInterest}</td>
                                         <td>{volunteer.volunteerDays}</td>
                                         <td>
                                             {
                                                 volunteer.ngos.map(ngo => {
-                                                    <div>
-                                                        <span>{ngo.name}</span>
-                                                        <span>{ngo.email}</span>
-                                                    </div>
+                                                    return (
+                                                        <div>
+                                                            <span>{ngo.name}</span>
+                                                            <span>{ngo.email}</span>
+                                                        </div>
+                                                    )
+
                                                 })
                                             }
                                         </td>

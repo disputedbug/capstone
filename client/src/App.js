@@ -5,11 +5,19 @@ import VolunteerForm from './components/VolunteerForm';
 import NgoForm from './components/NgoForm';
 import NGO_Volunteer_Match from './components/NGO_Volunteer_Match';
 import SignUpForm from './components/SignUpForm';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+
+
 
 function App() {
   return (
-    <NGO_Volunteer_Match/>
-
+    <BrowserRouter>
+      <Routes>
+      <Route path="/" element={<SignUpForm />} />
+      <Route path="/match" element={<NGO_Volunteer_Match />} />
+      </Routes>
+    </BrowserRouter>
+    
   );
 }
 
