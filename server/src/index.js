@@ -76,7 +76,7 @@ app.get('/find/vol-ngo', async (req, res) => {
       const { fieldOfInterest: volField, volunteerDays: volDay } = volunteer;
       const ngoResult = [];
       ngos.forEach(ngo => {
-          const { fieldOfInterest: ngoField, volunteerDays: ngoDay } = volunteer;
+          const { fieldOfInterest: ngoField, volunteerDays: ngoDay } = ngo;
           if(ngoField === volField && ngoDay === volDay) ngoResult.push(ngo)
       })
       result.push({
