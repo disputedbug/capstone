@@ -1,12 +1,28 @@
 const express = require("express");
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const https = require('https');
+const fs = require('fs');
+const path = require("path");
+const {X509Certificate} = require('crypto')
 
 const connectToDb = require("../db/connection");
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
+
+
+// importing self signed certificates
+const options = {
+  key: fs.readFileSync(__dirname+'/capstone.key'),
+  cert: fs.readFileSync(__dirname+'/capstone.crt')
+}
+
+
+https.createServer(options, app).listen(4000, () => {
+  console.log("serever is runing at port 4000");
+});
 
 app.get('/', (req, res) => {
   res.send("Node js running on your machine now");
@@ -131,7 +147,4 @@ app.post("/add/ngo", async (req, res) => {
     ...result
   });
 });
-
-app.listen(8080, () => {
-  console.log("Server started on port: ", 8080);
-});
+9696391832
