@@ -20,7 +20,7 @@ const options = {
 }
 
 
-https.createServer(options, app).listen(8080, () => {
+https.createServer(options, app).listen(8080, "0.0.0.0", () => {
   console.log("serever is runing at port 8080");
 });
 
