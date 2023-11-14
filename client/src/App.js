@@ -15,6 +15,7 @@ function App() {
       <Routes>
       <Route path="/" element={<SignUpForm />} />
       <Route path="/match" element={<NGO_Volunteer_Match />} />
+      <Route path="/signin" element={<SignInPage />} />
       </Routes>
     </BrowserRouter>
     
