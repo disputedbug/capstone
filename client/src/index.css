@@ -14,3 +14,10 @@ code {
 
 
 /* Write Custom CSS Classes here */
+.signup {    
+  font-size: 14px;
+  font-weight: normal;
+  font-family: { font-family: sans-serif; }  
+  text-align: center;
+  background-color: #c5c4c4;
+}
